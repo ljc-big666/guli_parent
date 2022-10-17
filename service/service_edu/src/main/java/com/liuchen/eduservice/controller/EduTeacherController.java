@@ -7,6 +7,7 @@ import com.liuchen.commonutils.R;
 import com.liuchen.eduservice.entity.EduTeacher;
 import com.liuchen.eduservice.entity.vo.TeacherQuery;
 import com.liuchen.eduservice.service.EduTeacherService;
+import com.liuchen.servicebase.exceptionhandler.GuLiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -68,6 +67,13 @@ public class EduTeacherController {
         // 调用方法实现分页
         // 调用方法时候，底层封装，把分页所有数据封装到pageTeacher对象里面
         eduTeacherService.page(pageTeacher, null);
+
+        try {
+            int i = 10/0;
+        } catch (Exception e){
+            // 执行自定义异常
+            throw new GuLiException(20001,"执行了自定义异常处理");
+        }
 
         long total = pageTeacher.getTotal();// 总记录数
         List<EduTeacher> records = pageTeacher.getRecords();// 数据list集合
@@ -128,6 +134,26 @@ public class EduTeacherController {
         if (save){
             return R.ok();
         } else {
+            return R.error();
+        }
+    }
+
+    // 根据讲师id进行查询
+    @ApiOperation(value = "根据讲师id进行查询")
+    @GetMapping("getTeacher/{id}")
+    public R getTeacher(@ApiParam(name = "id", value = "讲师ID", required = true) @PathVariable String id){
+        EduTeacher eduTeacher = eduTeacherService.getById(id);
+        return R.ok().data("teacher",eduTeacher);
+    }
+
+    // 讲师修改功能
+    @ApiOperation(value = "讲师修改功能")
+    @PostMapping("updateTeacher")
+    public R updateTeacher(@RequestBody EduTeacher eduTeacher){
+        boolean flag = eduTeacherService.updateById(eduTeacher);
+        if (flag){
+            return R.ok();
+        }else{
             return R.error();
         }
     }
