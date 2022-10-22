@@ -117,6 +117,8 @@ public class EduTeacherController {
             wrapper.le("gmt_modified",end);
         }
 
+        // 排序
+        wrapper.orderByDesc("gmt_modified");
 
         // 调用方法实现条件查询分页
         eduTeacherService.page(pageTeacher,wrapper);
