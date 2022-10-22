@@ -69,12 +69,12 @@ public class EduTeacherController {
         // 调用方法时候，底层封装，把分页所有数据封装到pageTeacher对象里面
         eduTeacherService.page(pageTeacher, null);
 
-        try {
+/*        try {
             int i = 10/0;
         } catch (Exception e){
             // 执行自定义异常
             throw new GuLiException(20001,"执行了自定义异常处理");
-        }
+        }*/
 
         long total = pageTeacher.getTotal();// 总记录数
         List<EduTeacher> records = pageTeacher.getRecords();// 数据list集合
@@ -94,7 +94,7 @@ public class EduTeacherController {
                                   @PathVariable long limit,
                                   @RequestBody(required = false) TeacherQuery teacherQuery){
         // 创建page对象
-        Page<EduTeacher> pageTeacher = new Page<>();
+        Page<EduTeacher> pageTeacher = new Page<>(current,limit);
 
         // 构造条件
         QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
