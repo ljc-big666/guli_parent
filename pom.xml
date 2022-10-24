@@ -17,7 +17,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.liuchen</groupId>
+    <groupId>com.liuchen.liuchen</groupId>
     <artifactId>guli_parent</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
