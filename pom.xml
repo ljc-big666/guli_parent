@@ -5,7 +5,6 @@
 
     <modules>
         <module>service</module>
-        <module>service_edu</module>
         <module>service/service_edu</module>
         <module>common</module>
     </modules>
