@@ -2,6 +2,7 @@ package com.liuchen.eduservice.service;
 
 import com.liuchen.eduservice.entity.EduTeacher;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
