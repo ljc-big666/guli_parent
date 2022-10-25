@@ -3,6 +3,7 @@ package com.liuchen.eduservice.service.impl;
 import com.alibaba.excel.EasyExcel;
 import com.liuchen.eduservice.entity.EduSubject;
 import com.liuchen.eduservice.entity.excel.SubjectData;
+import com.liuchen.eduservice.entity.subject.OneSubject;
 import com.liuchen.eduservice.listener.SubjectExcelListener;
 import com.liuchen.eduservice.mapper.EduSubjectMapper;
 import com.liuchen.eduservice.service.EduSubjectService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * <p>
@@ -34,5 +36,11 @@ public class EduSubjectServiceImpl extends ServiceImpl<EduSubjectMapper, EduSubj
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    // 课程分类列表(树形)
+    @Override
+    public List<OneSubject> getAllOneTwoSubject() {
+        return null;
     }
 }
