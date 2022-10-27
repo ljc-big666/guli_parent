@@ -41,7 +41,7 @@ public class EduTeacherController {
     public R findAllTeacher(){
         // 调用service的方法实现查询所有的操作
         List<EduTeacher> list = eduTeacherService.list(null);
-        return R.ok().data("itmes",list);
+        return R.ok().data("items",list);
     }
 
     // 2、逻辑删除讲师的方法
