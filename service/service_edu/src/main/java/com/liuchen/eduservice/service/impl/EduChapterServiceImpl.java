@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liuchen.eduservice.entity.EduChapter;
 import com.liuchen.eduservice.entity.EduVideo;
 import com.liuchen.eduservice.entity.chapter.ChapterVo;
+import com.liuchen.eduservice.entity.chapter.VideoVo;
 import com.liuchen.eduservice.mapper.EduChapterMapper;
 import com.liuchen.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liuchen.eduservice.service.EduVideoService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +44,32 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         List<EduVideo> videoList = videoService.list(wrapperVideo);
 
         // 创建list集合，用于最终封装数据
+        List<ChapterVo> finalList = new ArrayList<>();
 
+        // 3、遍历查询章节list集合进行封装
+        // 遍历查询章节list集合
+        for (int i = 0; i < chapterList.size(); i++){
+            // 每个章节
+            EduChapter eduChapters = chapterList.get(i);
+            // eduChapters对象值复制到ChapterVo里面
+            ChapterVo chapterVo = new ChapterVo();
+            BeanUtils.copyProperties(eduChapters, chapterVo);
 
-        return null;
+            List<VideoVo> videoVoList = new ArrayList<>();
+            // 4、遍历查询小节list集合，进行封装
+            for (int m = 0; m < videoList.size(); m++){
+                // 遍历每个小节
+                EduVideo eduVideo = videoList.get(m);
+                if (eduVideo.getChapterId().equals(eduChapters.getId())){
+                    VideoVo videoVo = new VideoVo();
+                    BeanUtils.copyProperties(eduVideo, videoVo);
+                    videoVoList.add(videoVo);
+                }
+            }
+            chapterVo.setChildren(videoVoList);
+            finalList.add(chapterVo);
+        }
+
+        return finalList;
     }
 }
