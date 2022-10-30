@@ -3,6 +3,7 @@ package com.liuchen.eduservice.service.impl;
 import com.liuchen.eduservice.entity.EduCourse;
 import com.liuchen.eduservice.entity.EduCourseDescription;
 import com.liuchen.eduservice.entity.vo.CourseInfoVo;
+import com.liuchen.eduservice.entity.vo.CoursePublishVo;
 import com.liuchen.eduservice.mapper.EduCourseMapper;
 import com.liuchen.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,7 +25,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     // 课程描述注入
     @Autowired
-    EduCourseDescriptionServiceImpl courseDescriptionService;
+    private EduCourseDescriptionServiceImpl courseDescriptionService;
 
     // 添加课程基本信息的方法
     @Override
@@ -79,5 +80,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         EduCourseDescription eduCourseDescription = new EduCourseDescription();
         BeanUtils.copyProperties(courseInfoVo, eduCourseDescription);
         courseDescriptionService.updateById(eduCourseDescription);
+    }
+
+    // 根据课程id查询课程确认信息
+    @Override
+    public CoursePublishVo publishCourseInfo(String id) {
+        // 调用方法
+        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
+        return publishCourseInfo;
     }
 }
