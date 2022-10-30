@@ -9,6 +9,7 @@ import com.liuchen.eduservice.mapper.EduChapterMapper;
 import com.liuchen.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liuchen.eduservice.service.EduVideoService;
+import com.liuchen.servicebase.exceptionhandler.GuLiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,21 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
         }
 
         return finalList;
+    }
+
+    // 删除章节的方法
+    @Override
+    public boolean deleteChapter(String chapterId) {
+        // 根据chapterId章节id查询小节表，如果查询有数据，不进行删除
+        QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
+        wrapper.eq("chapter_id",chapterId);
+        int count = videoService.count(wrapper);
+        if (count > 0){
+            throw new GuLiException(20001, "不能删除");
+        } else {
+            int result = baseMapper.deleteById(chapterId);
+            // 成功 1>0 true  失败 0>0 false
+            return result>0;
+        }
     }
 }
